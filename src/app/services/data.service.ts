@@ -60,8 +60,29 @@ const TOWNS: TownData[] = [{
 	name: "Town 3",
 	productIds: [1],
 	description: "It also looks like a nice place.",
-	x: -300,
-	y: -30,
+	x: -200,
+	y: -100,
+}, {
+	id: 4,
+	name: "Town 4",
+	productIds: [1],
+	description: "It looks like a nice place.",
+	x: -400,
+	y: 150,
+}, {
+	id: 5,
+	name: "Town 5",
+	productIds: [1],
+	description: "It looks like a nice place.",
+	x: -150,
+	y: 350,
+}, {
+	id: 6,
+	name: "Town 6",
+	productIds: [2],
+	description: "It looks like a nice place.",
+	x: 250,
+	y: 300,
 }];
 
 const ROADS: RoadData[] = [{
@@ -73,6 +94,46 @@ const ROADS: RoadData[] = [{
 	id: 51,
 	townId1: 1,
 	townId2: 3,
+	cost: 30,
+}, {
+	id: 52,
+	townId1: 1,
+	townId2: 4,
+	cost: 30,
+}, {
+	id: 53,
+	townId1: 1,
+	townId2: 5,
+	cost: 30,
+}, {
+	id: 54,
+	townId1: 1,
+	townId2: 6,
+	cost: 30,
+}, {
+	id: 55,
+	townId1: 2,
+	townId2: 6,
+	cost: 30,
+}, {
+	id: 56,
+	townId1: 5,
+	townId2: 6,
+	cost: 30,
+}, {
+	id: 57,
+	townId1: 5,
+	townId2: 4,
+	cost: 30,
+}, {
+	id: 58,
+	townId1: 4,
+	townId2: 3,
+	cost: 30,
+}, {
+	id: 59,
+	townId1: 3,
+	townId2: 5,
 	cost: 30,
 }]
 
