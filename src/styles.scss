@@ -1,1 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+
+body {
+	background-color: #f3ecbb;
+}
+body, input, option, p {
+	font-family: 'Patrick Hand', sans-serif;
+	font-size: 1.2rem;
+	color: #220f00;
+}
+h1, h2 {
+	font-family: 'Sacramento', cursive;
+}
+a {
+	color: #777c50;
+}
