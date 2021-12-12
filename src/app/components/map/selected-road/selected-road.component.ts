@@ -37,9 +37,8 @@ export class SelectedRoadComponent implements OnInit {
 		private selectService: SelectionService,
 		private gameService: GameService,
 	) {
-		combineLatest(this.selectService.selectedRoad$, this.gameService.currentGame$).subscribe({
+		combineLatest([this.selectService.selectedRoad$, this.gameService.currentGame$]).subscribe({
 			next: ([road, game]) => {
-				console.log('a change occurred', road);
 				this._id = road?.id;
 				this._cost = road?.cost;
 				this._built = road ? this.gameService.isRoadBuilt(road.id) : null;
