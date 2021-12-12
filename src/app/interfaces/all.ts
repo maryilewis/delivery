@@ -34,7 +34,7 @@ export interface GameData {
 	bike: Bike,
 	name: string,
 	money: number,
-	products: ProductData[],
+	productIds: number[],
 	locationId: number, // location is always a town, for now
 }
 

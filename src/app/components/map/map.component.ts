@@ -37,6 +37,7 @@ export class MapComponent implements OnInit {
 		this.networkInstance = new Network(container.nativeElement, this.getMapData(), {});
 		this.networkInstance.setOptions(options);
 		this.networkInstance.on("select", this.handleSelectWithContext(this));
+		this.networkInstance.fit();
 		this.gameService.currentGame$.subscribe({
 			next: (game: GameData) => {
 				// pay attention to whether roads have been built and current location changes

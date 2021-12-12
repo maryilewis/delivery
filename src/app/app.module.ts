@@ -11,7 +11,6 @@ import { MapComponent } from './components/map/map.component';
 import { JobBoardComponent } from './components/job-board/job-board.component';
 import { BuildMenuComponent } from './components/build-menu/build-menu.component';
 import { TownComponent } from './components/town/town.component';
-import { RoadComponent } from './components/road/road.component';
 import { NotificationComponent } from './components/notification/notification.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { FormsModule }   from '@angular/forms';
@@ -30,7 +29,6 @@ import { SelectedRoadComponent } from './components/map/selected-road/selected-r
     JobBoardComponent,
     BuildMenuComponent,
     TownComponent,
-    RoadComponent,
     NotificationComponent,
     WelcomeComponent,
     SelectedTownComponent,

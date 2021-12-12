@@ -35,7 +35,7 @@ export class PlayComponent implements OnInit {
 			this.gameService.createGame();
 		this.gameService.currentGame$.subscribe({
 			next: (game: GameData) => {
-				this._productNames = game.products.map((value) => value.name);
+				this._productNames = game.productIds.map((value) => this.dataService.getProductById(value).name);
 				this._townName = this.dataService.getTownById(game.locationId).name;
 				this._playerName = game.name;
 				this._money = game.money;

@@ -1,1 +1,4 @@
-<p>town works!</p>
+<p>Welcome to {{town.name}}!</p>
+<li *ngFor="let product of products; index as i">
+	<button (click)="pickUp(product.id)">Pick up {{ product.name }}</button>
+</li>

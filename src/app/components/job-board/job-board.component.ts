@@ -20,10 +20,6 @@ export class JobBoardComponent implements OnInit {
 		this.addNewJob();
 		this.addNewJob();
 		this.addNewJob();
-		this.addNewJob();
-		this.addNewJob();
-		this.addNewJob();
-		this.addNewJob();
 	}
 	ngOnInit(): void {
 	}
@@ -57,7 +53,4 @@ export class JobBoardComponent implements OnInit {
 			payment: 10,
 		}
 	}
-
-
-
 }

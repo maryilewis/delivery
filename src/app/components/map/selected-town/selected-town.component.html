@@ -1,1 +1,9 @@
-<p>selected town id: {{ id }}</p>
+<div [hidden]='!name'>
+	{{name}}
+	<div [hidden]='!current'>
+		This is where you are.
+	</div>
+	<div [hidden]='current'>
+		<button (click)="goToTown()">Go to {{ name }}?</button>
+	</div>
+</div>

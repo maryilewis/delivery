@@ -47,6 +47,22 @@ export class GameService {
 		this.currentGame.next(game);
 	}
 
+	public goToTownById(id: number) {
+		const game = this.currentGame.getValue();
+		// check if it's a real location
+		// check if there are roads from your current location to where you are trying to go
+		game.locationId = id;
+		this.currentGame.next(game);
+	}
+
+	public pickUpProduct(id: number) {
+		// are you at capacity?
+		const game = this.currentGame.getValue();
+		// check if it's a real product
+		game.productIds.push(id);
+		this.currentGame.next(game);
+	}
+
 	private randomName(): string {
 		return `${FIRST_NAMES[Math.floor(Math.random() * FIRST_NAMES.length)]} ${LAST_NAMES[Math.floor(Math.random() * LAST_NAMES.length)]}`;
 	}
@@ -61,7 +77,7 @@ const NEW_GAME: GameData = {
 	},
 	name: 'Daffodil Jam',
 	money: 35,
-	products: [],
+	productIds: [],
 	locationId: 1
 };
 
