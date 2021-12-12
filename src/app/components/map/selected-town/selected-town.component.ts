@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { SelectionService } from 'src/app/services/selection.service';
 
 @Component({
   selector: 'app-selected-town',
@@ -6,8 +7,18 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./selected-town.component.scss']
 })
 export class SelectedTownComponent implements OnInit {
-	@Input() id: number;
-  constructor() { }
+
+	get id(): number {
+		return this._id;
+	}
+	private _id: number;
+  constructor(private selectService: SelectionService) {
+	  this.selectService.selectedTown$.subscribe({
+		  next: (town) => {
+			this._id = town?.id;
+		  }
+	  })
+  }
 
   ngOnInit(): void {
   }

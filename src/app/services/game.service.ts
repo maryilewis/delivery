@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { GameData } from '../interfaces/all';
+import { GameData, RoadData, TownData } from '../interfaces/all';
 import { FileService } from './file.service';
 
 @Injectable({
@@ -15,7 +15,7 @@ export class GameService {
 	get currentTownId(): number {
 		return this.currentGame.getValue().locationId;
 	}
-	
+
 	private currentGame = new BehaviorSubject<GameData>(null);
 
 	constructor(private fileService: FileService) { }
@@ -26,9 +26,7 @@ export class GameService {
 	}
 
 	public loadGameFromString(gameString: string) {
-		console.log(gameString);
 		const gameObj = JSON.parse(gameString);
-		console.log('obj', gameObj);
 		this.currentGame.next(gameObj);
 	}
 	
@@ -38,6 +36,15 @@ export class GameService {
 
 	public isRoadBuilt(roadId: number): boolean {
 		return this.currentGame.getValue().builtRoadIds.includes(roadId);
+	}
+
+	public buildRoadById(roadId: number, cost: number) {
+		const game = this.currentGame.getValue();
+		// check if it's built
+		// check for enough money
+		game.builtRoadIds.push(roadId);
+		game.money -= cost;
+		this.currentGame.next(game);
 	}
 
 	private randomName(): string {
@@ -58,5 +65,5 @@ const NEW_GAME: GameData = {
 	locationId: 1
 };
 
-const FIRST_NAMES = ['Daffodil', 'Acorn', 'Oak', 'Leaf', 'Twig', 'Persimmon', 'Cinnamon', 'Blackberry', 'Bramble', 'Thimble', 'Nimble', 'Nettle', 'Eiderdown', 'Teacup', 'Whisper', 'Ripple', 'Ruffle', 'Creek', 'Brook', 'Swift', 'Snapdragon', 'Wicket', 'Wicker', 'Toadstool', 'Morel', 'Flossy', 'Hattie', 'Hazel', 'Willie', 'Cora', 'Whimsy', 'Mint', 'Cardamom', 'Ivy', 'Harper', 'Candle', 'Windy', 'Nutmeg', 'Basil', 'Weatherby', 'Bartleby', 'Daisy', 'Needle', 'Heather', 'Lilac', 'Rosemary', 'Lavender', 'Tea', 'Penny'];
-const LAST_NAMES = ['Codswallop', 'Cobblestone', 'Cobblepot', 'Swallowtail', 'Witchhazel', 'Arrowroot', 'Drifter', 'Puddle', 'Muddle', 'Tealeaf', 'Teatree', 'Treeleaf', 'Chamomile', 'Root', 'Wither', 'Hither', 'Thither', 'Willow', 'Woods', 'Path', 'Fog', 'Marsh', 'Branch', 'Fiddle', 'Hearth', 'Candlestick', 'Meadows', 'Rivulet', 'Tarragon', 'Campside', 'Riverside', 'Lakeside', 'Shore', 'Cotton', 'Wool', 'Seedpod', 'Needlepoint', 'Pincushion', 'Larkspur', 'Tin'];
+const FIRST_NAMES = ['Daffodil', 'Acorn', 'Oak', 'Leaf', 'Twig', 'Persimmon', 'Cinnamon', 'Blackberry', 'Bramble', 'Thimble', 'Nimble', 'Nettle', 'Eiderdown', 'Teacup', 'Whisper', 'Ripple', 'Ruffle', 'Creek', 'Brook', 'Swift', 'Snapdragon', 'Wicket', 'Wicker', 'Toadstool', 'Morel', 'Flossy', 'Hattie', 'Hazel', 'Willie', 'Cora', 'Whimsy', 'Mint', 'Cardamom', 'Ivy', 'Harper', 'Candle', 'Windy', 'Nutmeg', 'Basil', 'Weatherby', 'Bartleby', 'Daisy', 'Needle', 'Heather', 'Lilac', 'Rosemary', 'Lavender', 'Tea', 'Penny', 'Lace', 'Pearl'];
+const LAST_NAMES = ['Babble', 'Codswallop', 'Cobblestone', 'Cobblepot', 'Swallowtail', 'Witchhazel', 'Arrowroot', 'Drifter', 'Puddle', 'Muddle', 'Tealeaf', 'Teatree', 'Treeleaf', 'Chamomile', 'Root', 'Wither', 'Hither', 'Thither', 'Willow', 'Woods', 'Path', 'Fog', 'Marsh', 'Branch', 'Fiddle', 'Hearth', 'Candlestick', 'Meadows', 'Rivulet', 'Tarragon', 'Campside', 'Riverside', 'Lakeside', 'Shore', 'Cotton', 'Wool', 'Seedpod', 'Needlepoint', 'Pincushion', 'Larkspur', 'Tin', 'Tatter', 'Hook', 'Weather', 'Basket'];

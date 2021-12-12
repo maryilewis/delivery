@@ -4,6 +4,7 @@ import { DataSet } from 'vis-data';
 import { GameService } from 'src/app/services/game.service';
 import { GameData, RoadData, TownData } from 'src/app/interfaces/all';
 import { DataService } from 'src/app/services/data.service';
+import { SelectionService } from 'src/app/services/selection.service';
 
 @Component({
 	selector: 'app-map',
@@ -13,12 +14,11 @@ import { DataService } from 'src/app/services/data.service';
 export class MapComponent implements OnInit {
 	@ViewChild('mapElement', { static: false }) mapRef!: ElementRef;
 		private networkInstance: Network;
-		constructor(private gameService: GameService,
-		private dataService: DataService) {
+		constructor(
+			private gameService: GameService,
+			private dataService: DataService,
+			private selectService: SelectionService) {
 	}
-
-	selectedTownId: number;
-	selectedRoadId: number;
 
 	ngOnInit(): void {
 	}
@@ -36,7 +36,7 @@ export class MapComponent implements OnInit {
 		const container = this.mapRef;
 		this.networkInstance = new Network(container.nativeElement, this.getMapData(), {});
 		this.networkInstance.setOptions(options);
-		this.networkInstance.on("select", this.handleSelect);
+		this.networkInstance.on("select", this.handleSelectWithContext(this));
 		this.gameService.currentGame$.subscribe({
 			next: (game: GameData) => {
 				// pay attention to whether roads have been built and current location changes
@@ -44,37 +44,11 @@ export class MapComponent implements OnInit {
 			}
 		});
 	}
-/**
-{
-  nodes: [Array of selected nodeIds],
-  edges: [Array of selected edgeIds],
-  event: [Object] original click event,
-  pointer: {
-    DOM: {x:pointer_x, y:pointer_y},
-    canvas: {x:canvas_x, y:canvas_y},
-  },
-  items: [Array of click items],
 
-  Where the click items can be:
-  {nodeId:NodeId}            // node with given id clicked on
-  {nodeId:NodeId labelId:0}  // label of node with given id clicked on
-  {edgeId:EdgeId}            // edge with given id clicked on
-  {edge:EdgeId, labelId:0}   // label of edge with given id clicked on
-}
- * @param event
- */
-	private handleSelect(click) {
-		// this._selectedTownId = null;
-		// this._selectedRoadId = null;
-
-		if (click.nodes?.length) {
-			// a node was clicked
-			this.selectedTownId = click.nodes[0];
-			console.log('selecting town with id', this.selectedTownId);
-		} else if (click.edges?.length) {
-			// an edge was selected
-			this.selectedRoadId = click.edges[0];
-			console.log('selecting road with id', this.selectedRoadId);
+	private handleSelectWithContext(context: MapComponent): {(click: any): void} {
+		return (click) => {
+			context.selectService.selectTownById(click.nodes[0]);
+			context.selectService.selectedRoadById(click.edges[0]);
 		}
 	}
 
@@ -125,6 +99,10 @@ export class MapComponent implements OnInit {
 				color: '#684726',
 				physics: false,
 				label: roadIsBuilt ? '' : `Build for $${road.cost}`,
+				font: {
+					size: 16,
+					face: 'Patrick Hand',
+				},
 			};
 			return edge;
 		});

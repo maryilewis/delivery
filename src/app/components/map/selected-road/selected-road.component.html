@@ -1,1 +1,12 @@
-<p>selected road id: {{ id }}</p>
+<!-- Is a road not selected? -->
+<!-- Has the road already been built? -->
+<!-- link to build the road -->
+
+<div [hidden]='!id'>
+	<div [hidden]='built'>
+		<button (click)="buildRoad()">Build road for {{cost}}?</button>
+	</div>
+	<div [hidden]='!built'>
+		A fine road!
+	</div>
+</div>
