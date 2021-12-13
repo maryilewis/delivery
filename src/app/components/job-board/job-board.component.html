@@ -1,6 +1,6 @@
 <p>Job Board</p>
 <ul>   
-    <li *ngFor="let job of jobs$ | async; index as i">
+    <li *ngFor="let job of jobs; index as i">
         Deliver {{ job.productName }} to {{ job.townName }} ({{ job.payment }})
    </li> 
 </ul>

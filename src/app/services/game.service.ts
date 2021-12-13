@@ -63,6 +63,19 @@ export class GameService {
 		this.currentGame.next(game);
 	}
 
+	public removeProduct(id: number) {
+		const game = this.currentGame.getValue();
+		// check if it's a real product
+		game.productIds.splice(game.productIds.indexOf(id), 1);
+		this.currentGame.next(game);
+	}
+
+	public getPaid(amount: number) {
+		const game = this.currentGame.getValue();
+		game.money += amount;
+		this.currentGame.next(game);
+	}
+
 	private randomName(): string {
 		return `${FIRST_NAMES[Math.floor(Math.random() * FIRST_NAMES.length)]} ${LAST_NAMES[Math.floor(Math.random() * LAST_NAMES.length)]}`;
 	}
@@ -70,16 +83,16 @@ export class GameService {
 
 
 const NEW_GAME: GameData = {
-	builtRoadIds: [50],
+	builtRoadIds: [],
 	bike: {
 		capacity: 1,
 		speed: 1,
 	},
 	name: 'Daffodil Jam',
-	money: 35,
+	money: 300,
 	productIds: [],
 	locationId: 1
 };
 
-const FIRST_NAMES = ['Daffodil', 'Acorn', 'Oak', 'Leaf', 'Twig', 'Persimmon', 'Cinnamon', 'Blackberry', 'Bramble', 'Thimble', 'Nimble', 'Nettle', 'Eiderdown', 'Teacup', 'Whisper', 'Ripple', 'Ruffle', 'Creek', 'Brook', 'Swift', 'Snapdragon', 'Wicket', 'Wicker', 'Toadstool', 'Morel', 'Flossy', 'Hattie', 'Hazel', 'Willie', 'Cora', 'Whimsy', 'Mint', 'Cardamom', 'Ivy', 'Harper', 'Candle', 'Windy', 'Nutmeg', 'Basil', 'Weatherby', 'Bartleby', 'Daisy', 'Needle', 'Heather', 'Lilac', 'Rosemary', 'Lavender', 'Tea', 'Penny', 'Lace', 'Pearl'];
-const LAST_NAMES = ['Babble', 'Codswallop', 'Cobblestone', 'Cobblepot', 'Swallowtail', 'Witchhazel', 'Arrowroot', 'Drifter', 'Puddle', 'Muddle', 'Tealeaf', 'Teatree', 'Treeleaf', 'Chamomile', 'Root', 'Wither', 'Hither', 'Thither', 'Willow', 'Woods', 'Path', 'Fog', 'Marsh', 'Branch', 'Fiddle', 'Hearth', 'Candlestick', 'Meadows', 'Rivulet', 'Tarragon', 'Campside', 'Riverside', 'Lakeside', 'Shore', 'Cotton', 'Wool', 'Seedpod', 'Needlepoint', 'Pincushion', 'Larkspur', 'Tin', 'Tatter', 'Hook', 'Weather', 'Basket'];
+const FIRST_NAMES = ['Nettle', 'Daffodil', 'Acorn', 'Oak', 'Leaf', 'Twig', 'Persimmon', 'Cinnamon', 'Blackberry', 'Bramble', 'Thimble', 'Nimble', 'Nettle', 'Eiderdown', 'Teacup', 'Whisper', 'Ripple', 'Ruffle', 'Creek', 'Brook', 'Swift', 'Snapdragon', 'Wicket', 'Wicker', 'Toadstool', 'Morel', 'Flossy', 'Hattie', 'Hazel', 'Willie', 'Cora', 'Whimsy', 'Mint', 'Cardamom', 'Ivy', 'Harper', 'Candle', 'Windy', 'Nutmeg', 'Basil', 'Weatherby', 'Bartleby', 'Daisy', 'Needle', 'Heather', 'Lilac', 'Rosemary', 'Lavender', 'Tea', 'Penny', 'Lace', 'Pearl'];
+const LAST_NAMES = ['Thistledown', 'Babble', 'Willow-Whistle', 'Codswallop', 'Cobblestone', 'Cobblepot', 'Swallowtail', 'Witchhazel', 'Arrowroot', 'Drifter', 'Puddle', 'Muddle', 'Tealeaf', 'Teatree', 'Treeleaf', 'Chamomile', 'Root', 'Wither', 'Hither', 'Thither', 'Willow', 'Woods', 'Path', 'Fog', 'Marsh', 'Branch', 'Fiddle', 'Hearth', 'Candlestick', 'Meadows', 'Rivulet', 'Tarragon', 'Campside', 'Riverside', 'Lakeside', 'Shore', 'Cotton', 'Wool', 'Seedpod', 'Needlepoint', 'Pincushion', 'Larkspur', 'Tin', 'Tatter', 'Hook', 'Weather', 'Basket'];

@@ -5,14 +5,16 @@
 		Money: {{money}}
 	</li>
 	<li>
-		Cargo: {{productNames.join(', ')}}
+		Cargo:
+		<ul>
+			<li *ngFor="let product of products; index as i">
+				{{ product.product.name }} <button (click)="dropOff(product.product.id)">Drop off {{ product.product.name }} for {{ product.value }}</button>
+			</li>
+		</ul>
 	</li>
 </ul>
 <app-job-board></app-job-board>
+<app-selected-road></app-selected-road>
+<app-selected-town></app-selected-town>
 <app-map></app-map>
-<app-build-menu></app-build-menu>
-<ul>
-	<li>
-		link to open menu (save, get string, etc)
-	</li>
-</ul>
+

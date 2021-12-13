@@ -3,7 +3,7 @@
 body {
 	background-color: #f3ecbb;
 }
-body, input, option, p {
+body, input, option, p, button {
 	font-family: 'Patrick Hand', sans-serif;
 	font-size: 1.2rem;
 	color: #220f00;
@@ -13,4 +13,11 @@ h1, h2 {
 }
 a {
 	color: #777c50;
+}
+
+button, input[type=button] {
+	background-color: #dae4c0;
+	border-color: #220f00;
+	color: #220f00;
+	border-radius: 3px;
 }

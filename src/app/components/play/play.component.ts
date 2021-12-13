@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { GameData } from 'src/app/interfaces/all';
+import { GameData, ProductData, TownData } from 'src/app/interfaces/all';
 import { DataService } from 'src/app/services/data.service';
 import { GameService } from 'src/app/services/game.service';
+import { JobService } from 'src/app/services/job.service';
 
 @Component({
 	selector: 'app-play',
@@ -10,11 +11,11 @@ import { GameService } from 'src/app/services/game.service';
 })
 export class PlayComponent implements OnInit {
 
-	get townName() {
-		return this._townName;
+	get town() {
+		return this._town;
 	}
-	get productNames() {
-		return this._productNames;
+	get products(): TownProductData[] {
+		return this._products;
 	}
 	get playerName() {
 		return this._playerName;
@@ -23,20 +24,27 @@ export class PlayComponent implements OnInit {
 		return this._money;
 	}
 
-	private _townName: string;
-	private _productNames: string[] = [];
+	private _town: TownData;
+	private _products: TownProductData[];
 	private _playerName: string;
 	private _money: number;
 
 	// watch current came state from game service
 	constructor(private gameService: GameService,
-		private dataService: DataService) {
+		private dataService: DataService,
+		private jobService: JobService) {
 			// for testing purposes
 			this.gameService.createGame();
 		this.gameService.currentGame$.subscribe({
 			next: (game: GameData) => {
-				this._productNames = game.productIds.map((value) => this.dataService.getProductById(value).name);
-				this._townName = this.dataService.getTownById(game.locationId).name;
+				this._products = game.productIds.map((value) => {
+					return {
+						product: this.dataService.getProductById(value),
+						value: this.jobService.valueOfProductInTown(value, game.locationId)
+					}
+				});
+				this._town = this.dataService.getTownById(game.locationId);
+
 				this._playerName = game.name;
 				this._money = game.money;
 			}
@@ -46,4 +54,13 @@ export class PlayComponent implements OnInit {
 	ngOnInit(): void {
 	}
 
+	public dropOff(productId: number) {
+		console.log('dop off', productId, this.town.id);
+		this.jobService.completeJob(productId, this.town.id);
+	}
+
 }
+ interface TownProductData {
+	 product: ProductData,
+	 value: number,
+ }
