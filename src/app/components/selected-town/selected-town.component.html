@@ -3,7 +3,8 @@
 	<div [hidden]='!current'>
 		This is where you are.
 	</div>
-	<div [hidden]='current'>
+	<div [hidden]='current || !reachable'>
 		<button (click)="goToTown()">Go to {{ name }}?</button>
 	</div>
+	<div [hidden]="current || reachable">Build more roads to reach this town</div>
 </div>

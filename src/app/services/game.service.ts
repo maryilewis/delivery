@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { GameData, RoadData, TownData } from '../interfaces/all';
+import { DataService } from './data.service';
 import { FileService } from './file.service';
 
 @Injectable({
@@ -18,7 +19,8 @@ export class GameService {
 
 	private currentGame = new BehaviorSubject<GameData>(null);
 
-	constructor(private fileService: FileService) { }
+	constructor(private fileService: FileService,
+		private dataService: DataService) { }
 
 	public createGame() {
 		this.currentGame.next(Object.assign(NEW_GAME, {name: this.randomName()}));
@@ -53,6 +55,29 @@ export class GameService {
 		// check if there are roads from your current location to where you are trying to go
 		game.locationId = id;
 		this.currentGame.next(game);
+	}
+
+	// Assumes you can't build detatched roads
+	public canGoToTown(id: number): boolean {
+		const connectedRoads = this.dataService.roads.filter(road => (road.townId1 === id || road.townId2 === id) && this.isRoadBuilt(road.id));
+		return connectedRoads.length > 0;
+	}
+
+	public canReachRoad(id: number) {
+		// is connected to another built road OR town id = 1
+		const roadToBuild = this.dataService.getRoadByID(id);
+		const endpoints = [roadToBuild.townId1, roadToBuild.townId2];
+		if (endpoints.includes(1)) {
+			return true;
+		}
+		const connectedRoads = this.dataService.roads.filter(road => (endpoints.includes(road.townId1) || endpoints.includes(road.townId2)) && this.isRoadBuilt(road.id));
+		return connectedRoads.length > 0;
+	}
+
+	public canAffordRoad(id: number): boolean {
+		const roadToBuild = this.dataService.getRoadByID(id);
+		const game = this.currentGame.getValue();
+		return game.money >= roadToBuild.cost;
 	}
 
 	public pickUpProduct(id: number) {
@@ -94,5 +119,5 @@ const NEW_GAME: GameData = {
 	locationId: 1
 };
 
-const FIRST_NAMES = ["Spool", "Thread", "Penny", "Green", "Fable", "Myth", "Flag", "String", "Fret", "Bow", "Trick", "Dash", "Dodge", "Flicker", "Candle", "Flame", "Pick", "Neck", "Pit", "Fern", "Ramble", "Briar", "Thorn", "Root", "Bark", "Petal", "Stem", "Stone", "Rock", "Mulch", "Cob", "Spark", "Jute", "Twine", "Nib", "Candle", "Bee", "Clay", "Bell", "Clover", 'Nettle', 'Daffodil', 'Acorn', 'Oak', 'Leaf', 'Twig', 'Persimmon', 'Cinnamon', 'Blackberry', 'Bramble', 'Thimble', 'Nimble', 'Nettle', 'Eiderdown', 'Teacup', 'Whisper', 'Ripple', 'Ruffle', 'Creek', 'Brook', 'Swift', 'Snapdragon', 'Wicket', 'Wicker', 'Toadstool', 'Morel', 'Flossy', 'Hattie', 'Hazel', 'Willie', 'Cora', 'Whimsy', 'Mint', 'Cardamom', 'Ivy', 'Harper', 'Candle', 'Windy', 'Nutmeg', 'Basil', 'Weatherby', 'Bartleby', 'Daisy', 'Needle', 'Heather', 'Lilac', 'Rosemary', 'Lavender', 'Tea', 'Penny', 'Lace', 'Pearl'];
+const FIRST_NAMES = ["Spool", "Thread", "Penny", "Green", "Fable", "Myth", "Flag", "String", "Fret", "Bow", "Trick", "Dash", "Dodge", "Flicker", "Candle", "Flame", "Pick", "Pit", "Fern", "Ramble", "Briar", "Thorn", "Root", "Bark", "Petal", "Stem", "Stone", "Rock", "Mulch", "Cob", "Spark", "Jute", "Twine", "Nib", "Candle", "Bee", "Clay", "Bell", "Clover", 'Nettle', 'Daffodil', 'Acorn', 'Oak', 'Leaf', 'Twig', 'Persimmon', 'Cinnamon', 'Blackberry', 'Bramble', 'Thimble', 'Nimble', 'Nettle', 'Eiderdown', 'Teacup', 'Whisper', 'Ripple', 'Ruffle', 'Creek', 'Brook', 'Swift', 'Snapdragon', 'Wicket', 'Wicker', 'Toadstool', 'Morel', 'Flossy', 'Hattie', 'Hazel', 'Willie', 'Cora', 'Whimsy', 'Mint', 'Cardamom', 'Ivy', 'Harper', 'Candle', 'Windy', 'Nutmeg', 'Basil', 'Weatherby', 'Bartleby', 'Daisy', 'Needle', 'Heather', 'Lilac', 'Rosemary', 'Lavender', 'Tea', 'Penny', 'Lace', 'Pearl'];
 const LAST_NAMES = ["Chatterby", "Copperpot", "Yarn", "Cowlick", "Haypenny", "Fields", "Meadows", "Lyrical", "Cattail", "Milkweed", "Cornsilk", "Hayseed", "Burrow", "Warren", "Timber", "Potter", "Cottage", "Calico", "Gingham", "Picnic", "Dogwood", "Milkweed", "Fiddlehead", "Husk", "Sparkles", "Moonglow", "Starlight", "Sparkles", "Mill", "Cobbler", "Jam", "Reflection", "Preserve", 'Thistledown', 'Babble', 'Willow-Whistle', 'Codswallop', 'Cobblestone', 'Cobblepot', 'Swallowtail', 'Witchhazel', 'Arrowroot', 'Drifter', 'Puddle', 'Muddle', 'Tealeaf', 'Teatree', 'Treeleaf', 'Chamomile', 'Root', 'Wither', 'Hither', 'Thither', 'Willow', 'Woods', 'Path', 'Fog', 'Marsh', 'Branch', 'Fiddle', 'Hearth', 'Candlestick', 'Meadows', 'Rivulet', 'Tarragon', 'Campside', 'Riverside', 'Lakeside', 'Shore', 'Cotton', 'Wool', 'Seedpod', 'Needlepoint', 'Pincushion', 'Larkspur', 'Tin', 'Tatter', 'Hook', 'Weather', 'Basket'];

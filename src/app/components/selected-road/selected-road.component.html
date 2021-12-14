@@ -3,10 +3,8 @@
 <!-- link to build the road -->
 
 <div [hidden]='!id'>
-	<div [hidden]='built'>
+	<div [hidden]='!canBuild'>
 		<button (click)="buildRoad()">Build road for {{cost}}?</button>
 	</div>
-	<div [hidden]='!built'>
-		A fine road!
-	</div>
+	<div [hidden]="canBuild">{{ cannotBuildReason }}</div>
 </div>

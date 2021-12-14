@@ -24,14 +24,36 @@ export class SelectedRoadComponent implements OnInit {
 	}
 
 	/** can you afford it AND is it conneted to an existing road */
+	get enoughMoney(): boolean {
+		return this._enoughMoney;
+	}
+
+	get reachable(): boolean {
+		return this._reachable;
+	}
+
 	get canBuild(): boolean {
-		return this._canBuild;
+		return !this.built && this.enoughMoney && this.reachable;
+	}
+
+	get cannotBuildReason(): string {
+		if (this._built) {
+			return "You have built this road! You should be proud!";
+		}
+		if (!this._reachable) {
+			return "You need to build roads to get here before you can build this road.";
+		}
+		if (!this._enoughMoney) {
+			return "You do not have enough money to build this road.";
+		}
+		return "";
 	}
 
 	private _id: number;
 	private _built: boolean;
 	private _cost: number;
-	private _canBuild: boolean;
+	private _enoughMoney: boolean;
+	private _reachable: boolean;
 
 	constructor(
 		private selectService: SelectionService,
@@ -42,7 +64,8 @@ export class SelectedRoadComponent implements OnInit {
 				this._id = road?.id;
 				this._cost = road?.cost;
 				this._built = road ? this.gameService.isRoadBuilt(road.id) : null;
-				this._canBuild = road ? game.money > this.cost : false;
+				this._enoughMoney = road ? game.money > this.cost : false;
+				this._reachable = road ? this.gameService.canReachRoad(this._id) : false;
 			}
 		})
 	}

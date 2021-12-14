@@ -1,20 +1,28 @@
-<p>Hello, {{ playerName }}!</p>
-<app-town></app-town>
-<ul>
-	<li>
-		Money: {{money}}
-	</li>
-	<li>
-		Cargo:
-		<ul>
-			<li *ngFor="let product of products; index as i">
-				{{ product.product.name }} <button (click)="dropOff(product.product.id)">Drop off {{ product.product.name }} for {{ product.value }}</button>
-			</li>
-		</ul>
-	</li>
-</ul>
-<app-job-board></app-job-board>
-<app-selected-road></app-selected-road>
-<app-selected-town></app-selected-town>
-<app-map></app-map>
-
+<div id="page">
+	<header id="top-bar">
+		<h1>Delivery!</h1>
+		<p>Hello, {{ playerName }}!</p>
+	</header>
+	<main>
+		<nav id="side-nav">
+			<app-town></app-town>
+			<ul>
+				<li>
+					Money: {{money}}
+				</li>
+				<li>
+					Cargo:
+					<ul>
+						<li *ngFor="let product of products; index as i">
+							{{ product.product.name }} <button (click)="dropOff(product.product.id)">Drop off {{ product.product.name }} for {{ product.value }}</button>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			<app-job-board></app-job-board>
+			<app-selected-road></app-selected-road>
+			<app-selected-town></app-selected-town>
+		</nav>
+		<app-map></app-map>
+	</main>
+</div>

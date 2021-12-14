@@ -90,6 +90,8 @@ export class MapComponent implements OnInit {
 		return this.dataService.roads.map((road: RoadData) => {
 			// is road built?
 			const roadIsBuilt = this.gameService.isRoadBuilt(road.id);
+			const canReachRoad = this.gameService.canReachRoad(road.id);
+			const canAffordRoad = this.gameService.canAffordRoad(road.id);
 			const edge: Edge = {
 				from: road.townId1,
 				to: road.townId2,
@@ -97,9 +99,12 @@ export class MapComponent implements OnInit {
 				dashes: roadIsBuilt ? false : true,
 				width: 3,
 				smooth: true,
-				color: '#684726',
+				color: {
+					color: '#684726',
+					opacity: roadIsBuilt ? 1 : !canReachRoad || !canAffordRoad ? .25 : 1,
+				},
 				physics: false,
-				label: roadIsBuilt ? '' : `Build for $${road.cost}`,
+				label: roadIsBuilt ? '' : !canReachRoad ? 'Cannot build yet' : !canAffordRoad ? `Need $${road.cost} to build` : `Build for $${road.cost}`,
 				font: {
 					size: 16,
 					face: 'Patrick Hand',

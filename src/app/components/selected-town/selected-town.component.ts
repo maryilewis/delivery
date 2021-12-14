@@ -22,9 +22,14 @@ export class SelectedTownComponent implements OnInit {
 		return this._current;
 	}
 
+	get reachable(): boolean {
+		return this._reachable;
+	}
+
 	private _id: number;
 	private _name: string;
 	private _current: boolean;
+	private _reachable: boolean;
 
 	constructor(
 		private selectService: SelectionService,
@@ -35,6 +40,7 @@ export class SelectedTownComponent implements OnInit {
 				this._id = town?.id;
 				this._name = town?.name;
 				this._current = town ? town.id === game.locationId : false;
+				this._reachable = this.gameService.canGoToTown(this._id);
 			}
 		})
 	}
